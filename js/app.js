@@ -1,6 +1,6 @@
 /**
  * CORE APPLICATION CONTROLLER FOR LOGIC HUNT WITH KAPIL
- * Handles user profile, daily level progression, lesson reveal popups, and badges.
+ * Handles user profile, daily level progression, lesson reveal popups, badges, reset and logoff.
  */
 
 class AppController {
@@ -159,6 +159,41 @@ class AppController {
       };
     }
 
+    // Reset Progress Button & Modal Handlers
+    const resetBtn = document.getElementById('btnResetProgress');
+    const resetModal = document.getElementById('resetConfirmModal');
+    const confirmResetBtn = document.getElementById('btnConfirmReset');
+    const cancelResetBtn = document.getElementById('btnCancelReset');
+
+    if (resetBtn && resetModal) {
+      resetBtn.onclick = () => {
+        resetModal.classList.add('modal-active');
+        window.soundEngine.playClick();
+      };
+    }
+
+    if (cancelResetBtn && resetModal) {
+      cancelResetBtn.onclick = () => {
+        resetModal.classList.remove('modal-active');
+        window.soundEngine.playClick();
+      };
+    }
+
+    if (confirmResetBtn && resetModal) {
+      confirmResetBtn.onclick = () => {
+        resetModal.classList.remove('modal-active');
+        this.resetProgress();
+      };
+    }
+
+    // Log Off Button Handler
+    const logoffBtn = document.getElementById('btnLogoff');
+    if (logoffBtn) {
+      logoffBtn.onclick = () => {
+        this.logoff();
+      };
+    }
+
     // Dev unlock all toggle
     const devToggle = document.getElementById('devUnlockToggle');
     if (devToggle) {
@@ -210,6 +245,38 @@ class AppController {
         });
       };
     }
+  }
+
+  resetProgress() {
+    this.currentLevelId = 1;
+    this.unlockedLevels = [1];
+    this.completedLevels = [];
+    this.saveState();
+    this.updateHud();
+    window.soundEngine.playMove();
+    window.kapilController.speak("Progress reset! We are back at Day 1 with a clean slate!", 'happy', 6000);
+    this.startLevel(1);
+  }
+
+  logoff() {
+    this.userName = '';
+    this.currentLevelId = 1;
+    this.unlockedLevels = [1];
+    this.completedLevels = [];
+    try {
+      localStorage.removeItem('lhk_username');
+      localStorage.removeItem('lhk_unlocked');
+      localStorage.removeItem('lhk_completed');
+      localStorage.removeItem('lhk_current_level');
+    } catch (e) {
+      console.warn(e);
+    }
+    this.updateHud();
+    const nameInput = document.getElementById('learnerNameInput');
+    if (nameInput) nameInput.value = '';
+    document.getElementById('onboardingModal').classList.add('modal-active');
+    window.soundEngine.playClick();
+    window.kapilController.speak("Logged off! Enter a learner name to begin a new journey!", 'happy', 6000);
   }
 
   updateHud() {

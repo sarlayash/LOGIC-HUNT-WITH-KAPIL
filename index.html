@@ -48,6 +48,12 @@
         <button id="btnOpenCert" class="hud-btn" title="View & Download Certificate">
           📜 Certificate
         </button>
+        <button id="btnResetProgress" class="hud-btn" style="background: #fff1f2; border-color: #fecdd3; color: #be123c;" title="Reset Progress back to Day 1">
+          🔄 Reset
+        </button>
+        <button id="btnLogoff" class="hud-btn" style="background: #f1f5f9; border-color: #cbd5e1; color: #475569;" title="Log Off / Change Learner">
+          🚪 Log Off
+        </button>
         <button id="btnInstallPwa" class="hud-btn" style="display: none; border-color: #f59e0b; color: #b45309; background: #fffbeb;" title="Install Offline Mobile App">
           📲 Install App
         </button>
@@ -197,6 +203,25 @@
       <div style="text-align: center; margin-top: 20px;">
         <button id="btnDownloadCert" class="action-btn" style="width: 100%; padding: 16px; font-size: 1.05rem;">
           📥 Download Official Certificate (PNG)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. RESET CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="resetConfirmModal">
+    <div class="modal-content" style="max-width: 480px; text-align: center;">
+      <div style="font-size: 3rem; margin-bottom: 12px;">⚠️</div>
+      <h2 style="font-size: 1.35rem; font-weight: 900; color: #b91c1c; margin-bottom: 8px;">RESET ALL PROGRESS?</h2>
+      <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 24px; line-height: 1.5;">
+        Are you sure you want to reset your progress? This will reset all levels and badges back to Day 1.
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <button id="btnConfirmReset" class="action-btn" style="background: #dc2626; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);">
+          Yes, Reset to Day 1
+        </button>
+        <button id="btnCancelReset" class="cyber-btn">
+          Cancel
         </button>
       </div>
     </div>

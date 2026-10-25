@@ -1,7 +1,7 @@
 /**
  * FORTUNE 500 STANDARDS CANVAS BADGE & CERTIFICATE PNG GENERATOR
  * Ultra-high-resolution, perfectly-proportioned digital credentials.
- * Mathematical zero-spillover auto-fitting, luxury bevels, and guilloche accents.
+ * Mathematical zero-spillover auto-fitting, luxury square design, and guilloche accents.
  */
 
 class CertificateGenerator {
@@ -43,14 +43,14 @@ class CertificateGenerator {
       return `${match[1].trim()} (${match[2].trim()})`;
     }
     // Cut off if too long
-    if (concept.length > 28) {
-      return concept.substring(0, 26) + '...';
+    if (concept.length > 32) {
+      return concept.substring(0, 30) + '...';
     }
     return concept;
   }
 
   /**
-   * Generates a Fortune 500-standard 800x800 PNG Digital Badge
+   * Generates a Fortune 500-standard 800x800 SQUARE PNG Digital Badge
    */
   generateBadge(learnerName, level, callback) {
     const width = 800;
@@ -62,62 +62,75 @@ class CertificateGenerator {
     const cy = 400;
 
     // 1. Deep Obsidian / Titanium Royal Background
-    const bgGrad = ctx.createRadialGradient(cx, cy, 60, cx, cy, 420);
+    const bgGrad = ctx.createRadialGradient(cx, cy, 60, cx, cy, 460);
     bgGrad.addColorStop(0, '#130f2e');
     bgGrad.addColorStop(0.5, '#0a081a');
     bgGrad.addColorStop(1, '#05030e');
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, width, height);
 
-    // 2. Micro Security Ticks / Radial Guilloche Pattern
+    // 2. Micro Security Ticks along Square Perimeter
     ctx.save();
-    ctx.translate(cx, cy);
-    ctx.strokeStyle = 'rgba(0, 242, 254, 0.08)';
+    ctx.strokeStyle = 'rgba(0, 242, 254, 0.12)';
     ctx.lineWidth = 1;
-    for (let i = 0; i < 72; i++) {
-      ctx.rotate((Math.PI * 2) / 72);
+    // Top and bottom ticks
+    for (let x = 70; x <= 730; x += 16) {
       ctx.beginPath();
-      ctx.moveTo(350, 0);
-      ctx.lineTo(365, 0);
+      ctx.moveTo(x, 50);
+      ctx.lineTo(x, 58);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(x, 742);
+      ctx.lineTo(x, 750);
+      ctx.stroke();
+    }
+    // Left and right ticks
+    for (let y = 70; y <= 730; y += 16) {
+      ctx.beginPath();
+      ctx.moveTo(50, y);
+      ctx.lineTo(58, y);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(742, y);
+      ctx.lineTo(750, y);
       ctx.stroke();
     }
     ctx.restore();
 
-    // 3. Outer Precision Octagonal Medallion
-    const sides = 8;
-    const outerRadius = 355;
+    // 3. SQUARE SHAPE BADGE: Outer Glowing Border (Squircle with 36px radius)
     ctx.save();
-    ctx.translate(cx, cy);
-
-    // Glowing Cyan Outer Halo
     ctx.strokeStyle = '#00f2fe';
     ctx.lineWidth = 5;
     ctx.shadowColor = '#00f2fe';
-    ctx.shadowBlur = 28;
-    this.drawPolygon(ctx, 0, 0, outerRadius, sides);
-    ctx.stroke();
+    ctx.shadowBlur = 24;
+    this.roundRect(ctx, 42, 42, 716, 716, 36, false, true);
 
-    // Inner Polished Gold Bevel
-    const innerRadius = 332;
+    // Inner Polished Gold Frame (radius 28px)
     ctx.strokeStyle = '#ffd700';
     ctx.lineWidth = 2.5;
     ctx.shadowColor = '#ffd700';
-    ctx.shadowBlur = 12;
-    this.drawPolygon(ctx, 0, 0, innerRadius, sides);
-    ctx.stroke();
+    ctx.shadowBlur = 10;
+    this.roundRect(ctx, 58, 58, 684, 684, 28, false, true);
 
-    // Secondary subtle hairline
+    // Secondary subtle hairline frame
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
     ctx.lineWidth = 1;
     ctx.shadowBlur = 0;
-    this.drawPolygon(ctx, 0, 0, innerRadius - 12, sides);
-    ctx.stroke();
+    this.roundRect(ctx, 68, 68, 664, 664, 24, false, true);
+
+    // 4. Square Corner Accents (Gold Guilloche Brackets)
+    this.drawSquareCorner(ctx, 74, 74, 1, 1);
+    this.drawSquareCorner(ctx, 726, 74, -1, 1);
+    this.drawSquareCorner(ctx, 74, 726, 1, -1);
+    this.drawSquareCorner(ctx, 726, 726, -1, -1);
     ctx.restore();
 
-    // 4. SYM Productions Luxury Header Ribbon
+    // 5. SYM Productions Luxury Header Ribbon
     ctx.save();
-    const ribbonY = 96;
-    const ribbonW = 280;
+    const ribbonY = 106;
+    const ribbonW = 300;
     const ribbonH = 34;
     const ribbonGrad = ctx.createLinearGradient(cx - ribbonW / 2, 0, cx + ribbonW / 2, 0);
     ribbonGrad.addColorStop(0, '#ff007f');
@@ -129,7 +142,7 @@ class CertificateGenerator {
     ctx.shadowBlur = 16;
     this.roundRect(ctx, cx - ribbonW / 2, ribbonY - ribbonH / 2, ribbonW, ribbonH, 17, true, false);
 
-    ctx.strokeStyle = 'rgba(255, 215, 0, 0.7)';
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.8)';
     ctx.lineWidth = 1.5;
     this.roundRect(ctx, cx - ribbonW / 2, ribbonY - ribbonH / 2, ribbonW, ribbonH, 17, false, true);
 
@@ -142,11 +155,10 @@ class CertificateGenerator {
     ctx.fillText('★ SYM PRODUCTIONS ★', cx, ribbonY);
     ctx.restore();
 
-    // 5. Central Holographic Medallion Circle (Icon Bezel)
-    const orbY = 210;
-    const orbRadius = 58;
+    // 6. Central Holographic Medallion Circle (Icon Bezel)
+    const orbY = 216;
+    const orbRadius = 60;
 
-    // Outer glow ring
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, orbY, orbRadius, 0, Math.PI * 2);
@@ -167,22 +179,22 @@ class CertificateGenerator {
     ctx.stroke();
 
     // Level Icon Glyph
-    ctx.font = '52px "Segoe UI Emoji", Arial, sans-serif';
+    ctx.font = '54px "Segoe UI Emoji", Arial, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(level.icon || '⚡', cx, orbY + 2);
     ctx.restore();
 
-    // 6. Category Micro-Track
+    // 7. Category Micro-Track
     const stageStr = `STAGE ${level.id < 10 ? '0' + level.id : level.id} • ALGORITHMIC MASTERY`;
     ctx.fillStyle = '#94a3b8';
     ctx.font = 'bold 11px "Courier New", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.letterSpacing = '2px';
-    ctx.fillText(stageStr, cx, 298);
+    ctx.letterSpacing = '2.5px';
+    ctx.fillText(stageStr, cx, 308);
 
-    // 7. Badge Title (Guaranteed Zero-Spillover Auto-Fitted)
+    // 8. Badge Title (Wide, Generous Square Geometry)
     const badgeTitleText = (level.badgeTitle || level.title || `Level ${level.id}`).toUpperCase();
     ctx.save();
     ctx.shadowColor = '#00f2fe';
@@ -191,21 +203,21 @@ class CertificateGenerator {
       ctx,
       badgeTitleText,
       cx,
-      338,
-      480, // strict max width boundary
-      27,  // base font size
+      350,
+      560, // square shape gives generous 560px width!
+      28,
       '900',
       '"Segoe UI", Roboto, sans-serif',
       '#ffffff'
     );
     ctx.restore();
 
-    // 8. Concept Pill Box (Neat & Centered)
+    // 9. Concept Pill Box (Neat & Centered)
     const cleanConcept = this.formatConceptTag(level.dsaConcept);
     const conceptText = `MASTERY: ${cleanConcept}`;
     ctx.font = 'bold 13px "Courier New", monospace';
-    const conceptWidth = Math.min(ctx.measureText(conceptText).width + 36, 440);
-    const pillY = 382;
+    const conceptWidth = Math.min(ctx.measureText(conceptText).width + 36, 520);
+    const pillY = 396;
 
     ctx.save();
     ctx.fillStyle = 'rgba(0, 242, 254, 0.08)';
@@ -219,17 +231,17 @@ class CertificateGenerator {
       cx,
       pillY,
       conceptWidth - 16,
-      12.5,
+      13,
       'bold',
       '"Courier New", monospace',
       '#ffd700'
     );
     ctx.restore();
 
-    // 9. Luxury Ornamental Divider (Hairline with Diamond)
+    // 10. Luxury Ornamental Divider (Hairline with Diamond)
     ctx.save();
-    const dividerY = 425;
-    const dividerGrad = ctx.createLinearGradient(cx - 160, 0, cx + 160, 0);
+    const dividerY = 440;
+    const dividerGrad = ctx.createLinearGradient(cx - 200, 0, cx + 200, 0);
     dividerGrad.addColorStop(0, 'rgba(255, 215, 0, 0)');
     dividerGrad.addColorStop(0.5, '#ffd700');
     dividerGrad.addColorStop(1, 'rgba(255, 215, 0, 0)');
@@ -237,13 +249,13 @@ class CertificateGenerator {
     ctx.strokeStyle = dividerGrad;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(cx - 150, dividerY);
-    ctx.lineTo(cx - 15, dividerY);
+    ctx.moveTo(cx - 180, dividerY);
+    ctx.lineTo(cx - 16, dividerY);
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(cx + 15, dividerY);
-    ctx.lineTo(cx + 150, dividerY);
+    ctx.moveTo(cx + 16, dividerY);
+    ctx.lineTo(cx + 180, dividerY);
     ctx.stroke();
 
     // Diamond Accent
@@ -257,15 +269,15 @@ class CertificateGenerator {
     ctx.fill();
     ctx.restore();
 
-    // 10. Recipient Label
+    // 11. Recipient Label
     ctx.fillStyle = '#64748b';
     ctx.font = 'bold 11px "Segoe UI", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.letterSpacing = '2.5px';
-    ctx.fillText('CONFERRED UPON CANDIDATE', cx, 458);
+    ctx.fillText('CONFERRED UPON CANDIDATE', cx, 474);
 
-    // 11. Recipient Name (Auto-Fitted, Never Spills)
+    // 12. Recipient Name (Auto-Fitted, Never Spills)
     const recipientName = (learnerName || 'PIONEER').toUpperCase();
     ctx.save();
     ctx.shadowColor = '#ffffff';
@@ -274,35 +286,35 @@ class CertificateGenerator {
       ctx,
       recipientName,
       cx,
-      502,
-      460, // strictly constrained inside hexagon
-      34,  // bold base size
+      520,
+      540, // generous square width
+      36,
       '900',
       '"Segoe UI", Roboto, sans-serif',
       '#ffffff'
     );
     ctx.restore();
 
-    // 12. Program Identifier
+    // 13. Program Identifier
     ctx.fillStyle = '#00f2fe';
     ctx.font = 'bold 13px "Segoe UI", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.letterSpacing = '2px';
-    ctx.fillText('LOGIC HUNT WITH KAPIL', cx, 548);
+    ctx.fillText('LOGIC HUNT WITH KAPIL', cx, 568);
 
-    // 13. Security Verification Capsule
+    // 14. Security Verification Capsule
     const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     const footerText = `VERIFIED CREDENTIAL • ID: SYM-LHK-${level.id < 10 ? '0' + level.id : level.id} • ${dateStr}`;
-    const footBoxW = 410;
-    const footBoxH = 24;
-    const footY = 592;
+    const footBoxW = 460;
+    const footBoxH = 26;
+    const footY = 614;
 
     ctx.save();
     ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
     ctx.lineWidth = 1;
-    this.roundRect(ctx, cx - footBoxW / 2, footY - footBoxH / 2, footBoxW, footBoxH, 12, true, true);
+    this.roundRect(ctx, cx - footBoxW / 2, footY - footBoxH / 2, footBoxW, footBoxH, 13, true, true);
 
     this.drawFittedText(
       ctx,
@@ -310,7 +322,7 @@ class CertificateGenerator {
       cx,
       footY,
       footBoxW - 20,
-      10,
+      10.5,
       'bold',
       '"Courier New", monospace',
       '#94a3b8'
@@ -320,6 +332,16 @@ class CertificateGenerator {
     // Trigger high-res PNG download
     const filename = `${learnerName.replace(/\s+/g, '_')}_Badge_Level_${level.id}.png`;
     this.downloadCanvas(filename, callback);
+  }
+
+  drawSquareCorner(ctx, x, y, scaleX, scaleY) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(scaleX, scaleY);
+    ctx.fillStyle = '#ffd700';
+    ctx.fillRect(0, 0, 18, 3);
+    ctx.fillRect(0, 0, 3, 18);
+    ctx.restore();
   }
 
   /**
@@ -436,18 +458,6 @@ class CertificateGenerator {
     // Trigger download
     const filename = `${learnerName.replace(/\s+/g, '_')}_Official_Logic_Hunt_Certificate.png`;
     this.downloadCanvas(filename, callback);
-  }
-
-  drawPolygon(ctx, x, y, radius, sides) {
-    if (sides < 3) return;
-    ctx.beginPath();
-    const a = (Math.PI * 2) / sides;
-    const startAngle = -Math.PI / sides; // align flat top/bottom
-    ctx.moveTo(x + radius * Math.cos(startAngle), y + radius * Math.sin(startAngle));
-    for (let i = 1; i < sides; i++) {
-      ctx.lineTo(x + radius * Math.cos(startAngle + a * i), y + radius * Math.sin(startAngle + a * i));
-    }
-    ctx.closePath();
   }
 
   drawCornerDecor(ctx, x, y, flipX = false, flipY = false) {
