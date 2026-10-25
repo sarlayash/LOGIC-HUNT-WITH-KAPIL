@@ -1,6 +1,7 @@
 /**
- * HIGH-RESOLUTION CANVAS BADGE & CERTIFICATE PNG GENERATOR
- * Renders and exports crisp PNGs for Level Badges and Official Certificates.
+ * FORTUNE 500 STANDARDS CANVAS BADGE & CERTIFICATE PNG GENERATOR
+ * Ultra-high-resolution, perfectly-proportioned digital credentials.
+ * Mathematical zero-spillover auto-fitting, luxury bevels, and guilloche accents.
  */
 
 class CertificateGenerator {
@@ -10,105 +11,313 @@ class CertificateGenerator {
   }
 
   /**
-   * Generates a 600x600 PNG Badge for a specific completed level
+   * Helper: Fits and renders text within a strict maxWidth boundary.
+   * Decrements font size smoothly if text exceeds maxWidth.
+   */
+  drawFittedText(ctx, text, x, y, maxWidth, baseSize, weight, fontFam, color) {
+    let size = baseSize;
+    ctx.font = `${weight} ${size}px ${fontFam}`;
+    let measured = ctx.measureText(text).width;
+
+    while (measured > maxWidth && size > 11) {
+      size -= 1;
+      ctx.font = `${weight} ${size}px ${fontFam}`;
+      measured = ctx.measureText(text).width;
+    }
+
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, x, y);
+    return size;
+  }
+
+  /**
+   * Formats long DSA concept strings into concise, prestigious badge tags.
+   */
+  formatConceptTag(concept) {
+    if (!concept) return 'Algorithmic Logic';
+    // If concept contains parenthesis like "Stack (LIFO - Last In, First Out)", keep "Stack (LIFO)"
+    const match = concept.match(/^([^(]+)\(([^)-]+)/);
+    if (match) {
+      return `${match[1].trim()} (${match[2].trim()})`;
+    }
+    // Cut off if too long
+    if (concept.length > 28) {
+      return concept.substring(0, 26) + '...';
+    }
+    return concept;
+  }
+
+  /**
+   * Generates a Fortune 500-standard 800x800 PNG Digital Badge
    */
   generateBadge(learnerName, level, callback) {
-    const width = 600;
-    const height = 600;
+    const width = 800;
+    const height = 800;
     this.canvas.width = width;
     this.canvas.height = height;
     const ctx = this.ctx;
+    const cx = 400;
+    const cy = 400;
 
-    // Background Cyber Shield Gradient
-    const bgGrad = ctx.createRadialGradient(300, 300, 50, 300, 300, 300);
-    bgGrad.addColorStop(0, '#1a103c');
-    bgGrad.addColorStop(0.7, '#0b081d');
-    bgGrad.addColorStop(1, '#05020c');
+    // 1. Deep Obsidian / Titanium Royal Background
+    const bgGrad = ctx.createRadialGradient(cx, cy, 60, cx, cy, 420);
+    bgGrad.addColorStop(0, '#130f2e');
+    bgGrad.addColorStop(0.5, '#0a081a');
+    bgGrad.addColorStop(1, '#05030e');
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, width, height);
 
-    // Glowing Outer Hexagonal Shield
+    // 2. Micro Security Ticks / Radial Guilloche Pattern
     ctx.save();
-    ctx.translate(300, 300);
-    ctx.strokeStyle = '#00f2fe';
-    ctx.lineWidth = 6;
-    ctx.shadowColor = '#00f2fe';
-    ctx.shadowBlur = 24;
+    ctx.translate(cx, cy);
+    ctx.strokeStyle = 'rgba(0, 242, 254, 0.08)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 72; i++) {
+      ctx.rotate((Math.PI * 2) / 72);
+      ctx.beginPath();
+      ctx.moveTo(350, 0);
+      ctx.lineTo(365, 0);
+      ctx.stroke();
+    }
+    ctx.restore();
 
-    this.drawPolygon(ctx, 0, 0, 240, 8);
+    // 3. Outer Precision Octagonal Medallion
+    const sides = 8;
+    const outerRadius = 355;
+    ctx.save();
+    ctx.translate(cx, cy);
+
+    // Glowing Cyan Outer Halo
+    ctx.strokeStyle = '#00f2fe';
+    ctx.lineWidth = 5;
+    ctx.shadowColor = '#00f2fe';
+    ctx.shadowBlur = 28;
+    this.drawPolygon(ctx, 0, 0, outerRadius, sides);
     ctx.stroke();
 
-    // Inner Ring
+    // Inner Polished Gold Bevel
+    const innerRadius = 332;
     ctx.strokeStyle = '#ffd700';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.5;
     ctx.shadowColor = '#ffd700';
     ctx.shadowBlur = 12;
-    this.drawPolygon(ctx, 0, 0, 215, 8);
+    this.drawPolygon(ctx, 0, 0, innerRadius, sides);
+    ctx.stroke();
+
+    // Secondary subtle hairline
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 1;
+    ctx.shadowBlur = 0;
+    this.drawPolygon(ctx, 0, 0, innerRadius - 12, sides);
     ctx.stroke();
     ctx.restore();
 
-    // SYM Productions Header Pill
-    ctx.fillStyle = '#ff007f';
+    // 4. SYM Productions Luxury Header Ribbon
+    ctx.save();
+    const ribbonY = 96;
+    const ribbonW = 280;
+    const ribbonH = 34;
+    const ribbonGrad = ctx.createLinearGradient(cx - ribbonW / 2, 0, cx + ribbonW / 2, 0);
+    ribbonGrad.addColorStop(0, '#ff007f');
+    ribbonGrad.addColorStop(0.5, '#805ad5');
+    ribbonGrad.addColorStop(1, '#ff007f');
+
+    ctx.fillStyle = ribbonGrad;
     ctx.shadowColor = '#ff007f';
-    ctx.shadowBlur = 15;
-    this.roundRect(ctx, 160, 48, 280, 34, 17, true, false);
-    ctx.shadowBlur = 0;
+    ctx.shadowBlur = 16;
+    this.roundRect(ctx, cx - ribbonW / 2, ribbonY - ribbonH / 2, ribbonW, ribbonH, 17, true, false);
 
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.7)';
+    ctx.lineWidth = 1.5;
+    this.roundRect(ctx, cx - ribbonW / 2, ribbonY - ribbonH / 2, ribbonW, ribbonH, 17, false, true);
+
+    ctx.shadowBlur = 0;
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 13px "Courier New", monospace';
+    ctx.font = 'bold 12px "Courier New", monospace';
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.letterSpacing = '3px';
-    ctx.fillText('★ SYM PRODUCTIONS ★', 300, 70);
+    ctx.fillText('★ SYM PRODUCTIONS ★', cx, ribbonY);
+    ctx.restore();
 
-    // Badge Icon / Glyph
-    ctx.font = '72px Arial, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(level.icon || '⚡', 300, 210);
+    // 5. Central Holographic Medallion Circle (Icon Bezel)
+    const orbY = 210;
+    const orbRadius = 58;
 
-    // Level Title & Tag
-    ctx.fillStyle = '#00f2fe';
-    ctx.font = '900 24px "Segoe UI", Roboto, sans-serif';
-    ctx.shadowColor = '#00f2fe';
-    ctx.shadowBlur = 10;
-    ctx.fillText(`LEVEL ${level.id}: ${level.badgeTitle || level.title}`.toUpperCase(), 300, 275);
-    ctx.shadowBlur = 0;
-
-    // DSA Concept Tag
-    ctx.fillStyle = '#ffd700';
-    ctx.font = 'bold 16px "Courier New", monospace';
-    ctx.fillText(`[ MASTERY: ${level.dsaConcept} ]`, 300, 310);
-
-    // Divider Line
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-    ctx.lineWidth = 2;
+    // Outer glow ring
+    ctx.save();
     ctx.beginPath();
-    ctx.moveTo(150, 340);
-    ctx.lineTo(450, 340);
+    ctx.arc(cx, orbY, orbRadius, 0, Math.PI * 2);
+    ctx.fillStyle = '#151136';
+    ctx.fill();
+    ctx.strokeStyle = '#00f2fe';
+    ctx.lineWidth = 3;
+    ctx.shadowColor = '#00f2fe';
+    ctx.shadowBlur = 16;
     ctx.stroke();
 
-    // Learner Name
-    ctx.fillStyle = '#94a3b8';
-    ctx.font = '14px "Segoe UI", sans-serif';
-    ctx.fillText('AWARDED TO PRO CODER', 300, 375);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '900 32px "Segoe UI", Roboto, sans-serif';
-    ctx.shadowColor = '#ffffff';
-    ctx.shadowBlur = 8;
-    ctx.fillText((learnerName || 'PIONEER').toUpperCase(), 300, 420);
+    // Inner gold hairline
+    ctx.beginPath();
+    ctx.arc(cx, orbY, orbRadius - 6, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.6)';
+    ctx.lineWidth = 1.5;
     ctx.shadowBlur = 0;
+    ctx.stroke();
 
-    // Footer info
-    ctx.fillStyle = '#38bdf8';
-    ctx.font = 'bold 14px "Segoe UI", sans-serif';
-    ctx.fillText('LOGIC HUNT WITH KAPIL', 300, 485);
+    // Level Icon Glyph
+    ctx.font = '52px "Segoe UI Emoji", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(level.icon || '⚡', cx, orbY + 2);
+    ctx.restore();
 
+    // 6. Category Micro-Track
+    const stageStr = `STAGE ${level.id < 10 ? '0' + level.id : level.id} • ALGORITHMIC MASTERY`;
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 11px "Courier New", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.letterSpacing = '2px';
+    ctx.fillText(stageStr, cx, 298);
+
+    // 7. Badge Title (Guaranteed Zero-Spillover Auto-Fitted)
+    const badgeTitleText = (level.badgeTitle || level.title || `Level ${level.id}`).toUpperCase();
+    ctx.save();
+    ctx.shadowColor = '#00f2fe';
+    ctx.shadowBlur = 10;
+    this.drawFittedText(
+      ctx,
+      badgeTitleText,
+      cx,
+      338,
+      480, // strict max width boundary
+      27,  // base font size
+      '900',
+      '"Segoe UI", Roboto, sans-serif',
+      '#ffffff'
+    );
+    ctx.restore();
+
+    // 8. Concept Pill Box (Neat & Centered)
+    const cleanConcept = this.formatConceptTag(level.dsaConcept);
+    const conceptText = `MASTERY: ${cleanConcept}`;
+    ctx.font = 'bold 13px "Courier New", monospace';
+    const conceptWidth = Math.min(ctx.measureText(conceptText).width + 36, 440);
+    const pillY = 382;
+
+    ctx.save();
+    ctx.fillStyle = 'rgba(0, 242, 254, 0.08)';
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.5)';
+    ctx.lineWidth = 1.5;
+    this.roundRect(ctx, cx - conceptWidth / 2, pillY - 14, conceptWidth, 28, 14, true, true);
+
+    this.drawFittedText(
+      ctx,
+      conceptText,
+      cx,
+      pillY,
+      conceptWidth - 16,
+      12.5,
+      'bold',
+      '"Courier New", monospace',
+      '#ffd700'
+    );
+    ctx.restore();
+
+    // 9. Luxury Ornamental Divider (Hairline with Diamond)
+    ctx.save();
+    const dividerY = 425;
+    const dividerGrad = ctx.createLinearGradient(cx - 160, 0, cx + 160, 0);
+    dividerGrad.addColorStop(0, 'rgba(255, 215, 0, 0)');
+    dividerGrad.addColorStop(0.5, '#ffd700');
+    dividerGrad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+
+    ctx.strokeStyle = dividerGrad;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - 150, dividerY);
+    ctx.lineTo(cx - 15, dividerY);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(cx + 15, dividerY);
+    ctx.lineTo(cx + 150, dividerY);
+    ctx.stroke();
+
+    // Diamond Accent
+    ctx.fillStyle = '#ffd700';
+    ctx.beginPath();
+    ctx.moveTo(cx, dividerY - 5);
+    ctx.lineTo(cx + 6, dividerY);
+    ctx.lineTo(cx, dividerY + 5);
+    ctx.lineTo(cx - 6, dividerY);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
+    // 10. Recipient Label
     ctx.fillStyle = '#64748b';
-    ctx.font = '12px "Courier New", monospace';
-    const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    ctx.fillText(`VERIFIED ON: ${dateStr} • SYM-BADGE-${level.id}`, 300, 520);
+    ctx.font = 'bold 11px "Segoe UI", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.letterSpacing = '2.5px';
+    ctx.fillText('CONFERRED UPON CANDIDATE', cx, 458);
 
-    // Trigger download
+    // 11. Recipient Name (Auto-Fitted, Never Spills)
+    const recipientName = (learnerName || 'PIONEER').toUpperCase();
+    ctx.save();
+    ctx.shadowColor = '#ffffff';
+    ctx.shadowBlur = 12;
+    this.drawFittedText(
+      ctx,
+      recipientName,
+      cx,
+      502,
+      460, // strictly constrained inside hexagon
+      34,  // bold base size
+      '900',
+      '"Segoe UI", Roboto, sans-serif',
+      '#ffffff'
+    );
+    ctx.restore();
+
+    // 12. Program Identifier
+    ctx.fillStyle = '#00f2fe';
+    ctx.font = 'bold 13px "Segoe UI", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.letterSpacing = '2px';
+    ctx.fillText('LOGIC HUNT WITH KAPIL', cx, 548);
+
+    // 13. Security Verification Capsule
+    const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const footerText = `VERIFIED CREDENTIAL • ID: SYM-LHK-${level.id < 10 ? '0' + level.id : level.id} • ${dateStr}`;
+    const footBoxW = 410;
+    const footBoxH = 24;
+    const footY = 592;
+
+    ctx.save();
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.lineWidth = 1;
+    this.roundRect(ctx, cx - footBoxW / 2, footY - footBoxH / 2, footBoxW, footBoxH, 12, true, true);
+
+    this.drawFittedText(
+      ctx,
+      footerText,
+      cx,
+      footY,
+      footBoxW - 20,
+      10,
+      'bold',
+      '"Courier New", monospace',
+      '#94a3b8'
+    );
+    ctx.restore();
+
+    // Trigger high-res PNG download
     const filename = `${learnerName.replace(/\s+/g, '_')}_Badge_Level_${level.id}.png`;
     this.downloadCanvas(filename, callback);
   }
@@ -122,6 +331,7 @@ class CertificateGenerator {
     this.canvas.width = width;
     this.canvas.height = height;
     const ctx = this.ctx;
+    const cx = width / 2;
 
     // Dark luxury cyber background
     const bgGrad = ctx.createLinearGradient(0, 0, width, height);
@@ -150,63 +360,65 @@ class CertificateGenerator {
     ctx.fillStyle = '#00f2fe';
     ctx.font = 'bold 16px "Courier New", monospace';
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.letterSpacing = '6px';
-    ctx.fillText('★ SYM PRODUCTIONS PRESENTS ★', width / 2, 95);
+    ctx.fillText('★ SYM PRODUCTIONS PRESENTS ★', cx, 95);
 
     // Main Certificate Header
     ctx.fillStyle = '#ffd700';
-    ctx.font = '900 48px "Segoe UI", Georgia, serif';
+    ctx.font = '900 46px "Segoe UI", Georgia, serif';
     ctx.shadowColor = '#ffd700';
     ctx.shadowBlur = 18;
-    ctx.fillText('CERTIFICATE OF LOGIC MASTERY', width / 2, 165);
+    ctx.fillText('CERTIFICATE OF LOGIC MASTERY', cx, 165);
     ctx.shadowBlur = 0;
 
     // Subtitle
     ctx.fillStyle = '#38bdf8';
-    ctx.font = 'bold 20px "Segoe UI", sans-serif';
+    ctx.font = 'bold 19px "Segoe UI", sans-serif';
     ctx.letterSpacing = '2px';
-    ctx.fillText('LOGIC HUNT WITH KAPIL • 30-DAY ALGORITHMIC JOURNEY', width / 2, 210);
+    ctx.fillText('LOGIC HUNT WITH KAPIL • 30-DAY ALGORITHMIC JOURNEY', cx, 210);
 
     // "This certifies that"
     ctx.fillStyle = '#94a3b8';
     ctx.font = 'italic 18px Georgia, serif';
     ctx.letterSpacing = '1px';
-    ctx.fillText('This prestigious certification is awarded to', width / 2, 280);
+    ctx.fillText('This prestigious certification is awarded to', cx, 275);
 
-    // Learner Name
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '900 54px "Segoe UI", Roboto, sans-serif';
+    // Learner Name (Auto-fitted, never spills over)
+    const studentName = (learnerName || 'MASTER ALGORIST').toUpperCase();
+    ctx.save();
     ctx.shadowColor = '#00f2fe';
-    ctx.shadowBlur = 15;
-    ctx.fillText((learnerName || 'MASTER ALGORIST').toUpperCase(), width / 2, 360);
-    ctx.shadowBlur = 0;
+    ctx.shadowBlur = 16;
+    this.drawFittedText(ctx, studentName, cx, 355, 880, 52, '900', '"Segoe UI", Roboto, sans-serif', '#ffffff');
+    ctx.restore();
 
     // Underline for Name
-    const nameWidth = ctx.measureText((learnerName || 'MASTER ALGORIST').toUpperCase()).width;
-    const underlineGrad = ctx.createLinearGradient(width / 2 - nameWidth / 2 - 40, 0, width / 2 + nameWidth / 2 + 40, 0);
+    ctx.font = '900 48px "Segoe UI", sans-serif';
+    const nameWidth = Math.min(ctx.measureText(studentName).width, 880);
+    const underlineGrad = ctx.createLinearGradient(cx - nameWidth / 2 - 40, 0, cx + nameWidth / 2 + 40, 0);
     underlineGrad.addColorStop(0, 'rgba(0, 242, 254, 0)');
     underlineGrad.addColorStop(0.5, '#ffd700');
     underlineGrad.addColorStop(1, 'rgba(0, 242, 254, 0)');
     ctx.strokeStyle = underlineGrad;
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(width / 2 - nameWidth / 2 - 50, 385);
-    ctx.lineTo(width / 2 + nameWidth / 2 + 50, 385);
+    ctx.moveTo(cx - nameWidth / 2 - 40, 385);
+    ctx.lineTo(cx + nameWidth / 2 + 40, 385);
     ctx.stroke();
 
     // Body Text
     ctx.fillStyle = '#cbd5e1';
-    ctx.font = '19px "Segoe UI", sans-serif';
-    ctx.fillText('for exceptional problem-solving, critical algorithmic thinking, and mastering foundational', width / 2, 435);
-    ctx.fillText('Data Structures & Algorithms concepts through interactive simulation and gaming logic.', width / 2, 470);
+    ctx.font = '18px "Segoe UI", sans-serif';
+    ctx.fillText('for exceptional problem-solving, critical algorithmic thinking, and mastering foundational', cx, 435);
+    ctx.fillText('Data Structures & Algorithms concepts through interactive simulation and gaming logic.', cx, 468);
 
     // Achievement Stats Bar
     ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-    this.roundRect(ctx, width / 2 - 320, 505, 640, 60, 10, true, false);
+    this.roundRect(ctx, cx - 320, 505, 640, 56, 10, true, false);
     ctx.fillStyle = '#00f2fe';
-    ctx.font = 'bold 16px "Courier New", monospace';
+    ctx.font = 'bold 15px "Courier New", monospace';
     const levelsCompleted = stats.completedLevels || stats.unlockedLevels || 1;
-    ctx.fillText(`LEVELS CLEARED: ${levelsCompleted}/30  •  LOGIC SCORE: ${stats.score || (levelsCompleted * 100)}  •  BADGES: ${levelsCompleted}`, width / 2, 542);
+    ctx.fillText(`LEVELS CLEARED: ${levelsCompleted}/30  •  LOGIC SCORE: ${stats.score || (levelsCompleted * 100)}  •  BADGES: ${levelsCompleted}`, cx, 533);
 
     // Gold Seal on the left
     this.drawGoldSeal(ctx, 220, 660);
@@ -219,7 +431,7 @@ class CertificateGenerator {
     ctx.font = '12px "Courier New", monospace';
     const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     const certCode = 'SYM-LHK-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    ctx.fillText(`ISSUED ON: ${dateStr}   |   SERIAL ID: ${certCode}   |   OFFICIAL SYM PRODUCTIONS RELEASE`, width / 2, 755);
+    ctx.fillText(`ISSUED ON: ${dateStr}   |   SERIAL ID: ${certCode}   |   OFFICIAL SYM PRODUCTIONS RELEASE`, cx, 755);
 
     // Trigger download
     const filename = `${learnerName.replace(/\s+/g, '_')}_Official_Logic_Hunt_Certificate.png`;
@@ -230,9 +442,10 @@ class CertificateGenerator {
     if (sides < 3) return;
     ctx.beginPath();
     const a = (Math.PI * 2) / sides;
-    ctx.moveTo(x + radius * Math.cos(0), y + radius * Math.sin(0));
+    const startAngle = -Math.PI / sides; // align flat top/bottom
+    ctx.moveTo(x + radius * Math.cos(startAngle), y + radius * Math.sin(startAngle));
     for (let i = 1; i < sides; i++) {
-      ctx.lineTo(x + radius * Math.cos(a * i), y + radius * Math.sin(a * i));
+      ctx.lineTo(x + radius * Math.cos(startAngle + a * i), y + radius * Math.sin(startAngle + a * i));
     }
     ctx.closePath();
   }
@@ -252,7 +465,6 @@ class CertificateGenerator {
 
   drawGoldSeal(ctx, cx, cy) {
     ctx.save();
-    // Starburst Seal
     ctx.translate(cx, cy);
     ctx.fillStyle = '#d4af37';
     ctx.shadowColor = '#ffd700';
@@ -282,6 +494,7 @@ class CertificateGenerator {
     ctx.fillStyle = '#ffd700';
     ctx.font = 'bold 9px "Courier New", monospace';
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText('SYM SEAL', 0, -12);
     ctx.font = '900 13px sans-serif';
     ctx.fillText('VERIFIED', 0, 4);
@@ -294,7 +507,6 @@ class CertificateGenerator {
     ctx.save();
     ctx.translate(cx, cy);
 
-    // Calligraphic Signature simulation
     ctx.strokeStyle = '#00f2fe';
     ctx.lineWidth = 3;
     ctx.lineCap = 'round';
@@ -305,7 +517,6 @@ class CertificateGenerator {
     ctx.bezierCurveTo(40, -10, 60, -30, 75, -5);
     ctx.stroke();
 
-    // Line under signature
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
@@ -316,6 +527,7 @@ class CertificateGenerator {
     ctx.fillStyle = '#e2e8f0';
     ctx.font = 'bold 15px "Segoe UI", sans-serif';
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText('Kapil', 0, 28);
 
     ctx.fillStyle = '#38bdf8';

@@ -3,7 +3,7 @@
  * Enables 100% offline gameplay, asset caching, and mobile installation.
  */
 
-const CACHE_NAME = 'logic-hunt-v1.0.0';
+const CACHE_NAME = 'logic-hunt-v1.0.1';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -77,7 +77,6 @@ self.addEventListener('fetch', (event) => {
         });
         return networkResponse;
       }).catch(() => {
-        // If offline and request is for navigation, return cached index.html
         if (event.request.mode === 'navigate') {
           return caches.match('./index.html');
         }
