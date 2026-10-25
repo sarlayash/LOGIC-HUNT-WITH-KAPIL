@@ -6,10 +6,10 @@
   <title>SYM PRODUCTIONS: Logic Hunt with Kapil | 30-Day Algorithmic Journey</title>
   
   <!-- PWA Meta Tags -->
-  <meta name="theme-color" content="#00f2fe">
+  <meta name="theme-color" content="#ffffff">
   <meta name="description" content="Animated game developing programming logic building with hidden DSA concepts. 30 progressive daily levels with badges and offline certificates.">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="LogicHunt">
 
   <link rel="manifest" href="manifest.json">
@@ -22,7 +22,7 @@
   <!-- Fullscreen Confetti Celebration Canvas -->
   <canvas id="confettiCanvas"></canvas>
 
-  <!-- TOP BRANDING & HUD -->
+  <!-- 1. TOP BRANDING & HUD -->
   <header class="sym-brand-header">
     <div class="brand-row">
       <div class="brand-title-wrap">
@@ -48,7 +48,7 @@
         <button id="btnOpenCert" class="hud-btn" title="View & Download Certificate">
           📜 Certificate
         </button>
-        <button id="btnInstallPwa" class="hud-btn" style="display: none; border-color: var(--accent-gold); color: var(--accent-gold);" title="Install Offline Mobile App">
+        <button id="btnInstallPwa" class="hud-btn" style="display: none; border-color: #f59e0b; color: #b45309; background: #fffbeb;" title="Install Offline Mobile App">
           📲 Install App
         </button>
         <button id="btnToggleSound" class="hud-btn" title="Toggle Sound">
@@ -61,7 +61,7 @@
   <!-- MAIN APP CONTAINER -->
   <main class="app-layout">
     
-    <!-- KAPIL MENTOR BAR -->
+    <!-- 2. KAPIL MENTOR BAR -->
     <section class="kapil-interactive-bar">
       <div class="kapil-avatar-box" id="kapilAvatarContainer">
         <!-- SVG Avatar injected by js/kapil.js -->
@@ -74,7 +74,7 @@
       </div>
     </section>
 
-    <!-- LEVEL HEADER BANNER -->
+    <!-- 3. LEVEL HEADER BANNER -->
     <section class="level-banner">
       <div class="level-title-large" id="levelBannerTitle">
         <span class="lvl-icon">📦</span> DAY 1: The Express Conveyor
@@ -84,7 +84,7 @@
       </div>
     </section>
 
-    <!-- INTERACTIVE GAMEPLAY ARENA -->
+    <!-- 4. INTERACTIVE GAMEPLAY ARENA -->
     <section class="game-arena-wrapper" id="gameArena">
       <!-- Mini game rendered dynamically by js/games.js -->
     </section>
@@ -97,21 +97,21 @@
   <div class="modal-overlay" id="onboardingModal">
     <div class="modal-content">
       <div class="lesson-reveal-header">
-        <div class="reveal-badge-pill">SYM PRODUCTIONS</div>
+        <div class="reveal-badge-pill">★ SYM PRODUCTIONS ★</div>
         <h2 class="reveal-title">WELCOME TO LOGIC HUNT</h2>
-        <p style="color: #94a3b8; margin-top: 8px;">
+        <p style="color: #64748b; margin-top: 8px; font-weight: 500;">
           An animated 30-day algorithmic adventure with Kapil. Develop pure problem-solving logic through interactive games!
         </p>
       </div>
 
       <div style="margin: 24px 0; display: flex; flex-direction: column; gap: 12px;">
-        <label style="font-weight: 700; color: #00f2fe; font-size: 0.95rem;">ENTER YOUR LEARNER NAME:</label>
-        <input type="text" id="learnerNameInput" class="cyber-num-input" placeholder="e.g. Alex Hunter" maxlength="28" autofocus style="text-align: left; font-size: 1.1rem; padding: 12px 16px;" />
-        <span style="font-size: 0.8rem; color: #64748b;">* This name will be permanently embossed onto your official completion certificates and downloadable badges.</span>
+        <label style="font-weight: 800; color: #0f172a; font-size: 0.95rem;">ENTER YOUR LEARNER NAME:</label>
+        <input type="text" id="learnerNameInput" class="cyber-num-input" placeholder="e.g. Alex Hunter" maxlength="28" autofocus style="text-align: left; font-size: 1.1rem; padding: 14px 18px;" />
+        <span style="font-size: 0.82rem; color: #64748b; font-weight: 500;">* This name will be permanently embossed onto your official completion certificates and downloadable badges.</span>
       </div>
 
       <div style="text-align: center;">
-        <button id="btnStartJourney" class="action-btn" style="width: 100%; padding: 14px; font-size: 1.05rem;">
+        <button id="btnStartJourney" class="action-btn" style="width: 100%; padding: 16px; font-size: 1.08rem;">
           🚀 BEGIN 30-DAY JOURNEY
         </button>
       </div>
@@ -127,12 +127,12 @@
       </div>
 
       <div class="reveal-card">
-        <div style="color: #ffd700; font-weight: 800; font-size: 0.9rem; margin-bottom: 6px;">💡 THE "AHA!" MOMENT:</div>
+        <div style="color: #4f46e5; font-weight: 800; font-size: 0.9rem; margin-bottom: 6px;">💡 THE "AHA!" MOMENT:</div>
         <div class="reveal-aha" id="revealAhaText">
           Explanation connecting game mechanic to algorithm...
         </div>
 
-        <div style="color: #00f2fe; font-weight: 800; font-size: 0.9rem; margin-top: 14px;">💻 REAL PROGRAMMING CODE:</div>
+        <div style="color: #0f172a; font-weight: 800; font-size: 0.9rem; margin-top: 14px;">💻 REAL PROGRAMMING CODE:</div>
         <div class="code-container">
           <pre><code id="revealCodeBlock"></code></pre>
         </div>
@@ -143,7 +143,7 @@
       </div>
 
       <div class="reveal-actions">
-        <button id="btnDownloadBadge" class="action-btn" style="background: linear-gradient(135deg, #ffd700, #f59e0b);">
+        <button id="btnDownloadBadge" class="action-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);">
           🎖️ Download Level Badge (PNG)
         </button>
         <button id="btnNextLevel" class="action-btn">
@@ -160,9 +160,9 @@
       <div class="lesson-reveal-header">
         <div class="reveal-badge-pill">30-DAY ALGORITHMIC CALENDAR</div>
         <h2 class="reveal-title">JOURNEY PROGRESSION MAP</h2>
-        <div style="margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-          <label style="font-size: 0.85rem; color: #cbd5e1; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-            <input type="checkbox" id="devUnlockToggle" style="accent-color: #00f2fe;">
+        <div style="margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+          <label style="font-size: 0.88rem; color: #334155; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600;">
+            <input type="checkbox" id="devUnlockToggle" style="accent-color: #4f46e5; width: 16px; height: 16px;">
             <span>🔓 Explorer Mode (Unlock all 30 days for testing/review)</span>
           </label>
         </div>
@@ -181,21 +181,21 @@
       <div class="lesson-reveal-header">
         <div class="reveal-badge-pill">SYM PRODUCTIONS VERIFIED</div>
         <h2 class="reveal-title">OFFICIAL CERTIFICATE</h2>
-        <p style="color: #94a3b8; margin-top: 6px;">
-          Awarded to <b id="certModalName" style="color: #fff;">Learner</b> for algorithmic excellence in Logic Hunt with Kapil.
+        <p style="color: #64748b; margin-top: 6px; font-weight: 500;">
+          Awarded to <b id="certModalName" style="color: #0f172a;">Learner</b> for algorithmic excellence in Logic Hunt with Kapil.
         </p>
       </div>
 
-      <div class="reveal-card" style="text-align: center; padding: 20px;">
-        <div style="font-size: 3rem; margin-bottom: 10px;">📜</div>
-        <div style="font-size: 1.1rem; font-weight: 800; color: #ffd700;">Certificate of Algorithmic Mastery</div>
-        <div id="certModalStats" style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 0.9rem; color: #cbd5e1;">
+      <div class="reveal-card" style="text-align: center; padding: 24px; background: #fffbeb; border-color: #fef3c7;">
+        <div style="font-size: 3.5rem; margin-bottom: 12px;">📜</div>
+        <div style="font-size: 1.25rem; font-weight: 900; color: #92400e;">Certificate of Algorithmic Mastery</div>
+        <div id="certModalStats" style="display: flex; flex-direction: column; gap: 8px; margin-top: 16px; font-size: 0.95rem; color: #78350f; font-weight: 700;">
           <!-- Populated by app.js -->
         </div>
       </div>
 
       <div style="text-align: center; margin-top: 20px;">
-        <button id="btnDownloadCert" class="action-btn" style="width: 100%; padding: 14px;">
+        <button id="btnDownloadCert" class="action-btn" style="width: 100%; padding: 16px; font-size: 1.05rem;">
           📥 Download Official Certificate (PNG)
         </button>
       </div>
@@ -203,9 +203,9 @@
   </div>
 
   <!-- PWA INSTALLATION INSTRUCTION BANNER (FOR IOS/MOBILE) -->
-  <div id="iosInstallToast" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #120e30; border: 2px solid #00f2fe; padding: 12px 20px; border-radius: 12px; z-index: 9999; color: #fff; font-size: 0.88rem; box-shadow: 0 4px 20px rgba(0, 242, 254, 0.4); text-align: center; max-width: 90%;">
-    📱 To install on iPhone: Tap <b>Share</b> <span style="font-size: 1.1rem;">⎋</span> and select <b>"Add to Home Screen"</b> ➕
-    <button onclick="document.getElementById('iosInstallToast').style.display='none'" style="margin-left: 10px; background: transparent; border: none; color: #ff007f; font-weight: bold; cursor: pointer;">✕</button>
+  <div id="iosInstallToast" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #ffffff; border: 2px solid #6366f1; padding: 14px 22px; border-radius: 16px; z-index: 9999; color: #0f172a; font-size: 0.92rem; font-weight: 600; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); text-align: center; max-width: 90%;">
+    📱 To install on iPhone: Tap <b>Share</b> <span style="font-size: 1.15rem;">⎋</span> and select <b>"Add to Home Screen"</b> ➕
+    <button onclick="document.getElementById('iosInstallToast').style.display='none'" style="margin-left: 12px; background: #f1f5f9; border: none; color: #e11d48; font-weight: bold; padding: 4px 10px; border-radius: 8px; cursor: pointer;">✕</button>
   </div>
 
   <!-- SCRIPTS -->

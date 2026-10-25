@@ -150,7 +150,7 @@ class GameEngine {
                 ${queue.map((item, idx) => `
                   <div class="conveyor-box ${idx === 0 ? 'pulse-ready' : ''}" 
                        data-idx="${idx}" 
-                       style="background: linear-gradient(135deg, ${item.color}, #1e1e38)">
+                       style="background: linear-gradient(135deg, ${item.color}, #3730a3)">
                     <span class="box-tag">#${idx + 1} Arrived</span>
                     <span class="box-icon">📦</span>
                     <span class="box-name">${item.label}</span>
