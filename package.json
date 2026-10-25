@@ -1,0 +1,11 @@
+{
+  "name": "logic-hunt-with-kapil",
+  "version": "1.0.0",
+  "description": "SYM Productions presents: Logic Hunt with Kapil - Animated 30-Day Game developing logic building with hidden DSA concepts.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "author": "SYM Productions",
+  "license": "MIT"
+}

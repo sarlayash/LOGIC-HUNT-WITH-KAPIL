@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SYM PRODUCTIONS: Logic Hunt with Kapil | 30-Day Algorithmic Journey</title>
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#00f2fe">
+  <meta name="description" content="Animated game developing programming logic building with hidden DSA concepts. 30 progressive daily levels with badges and offline certificates.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="LogicHunt">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Fullscreen Confetti Celebration Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- TOP BRANDING & HUD -->
+  <header class="sym-brand-header">
+    <div class="brand-row">
+      <div class="brand-title-wrap">
+        <div class="sym-presents-tag">★ SYM PRODUCTIONS PRESENTS ★</div>
+        <h1 class="main-title">LOGIC HUNT WITH KAPIL</h1>
+      </div>
+
+      <div class="user-hud-bar">
+        <div class="hud-pill">
+          <span>👤</span>
+          <span id="hudLearnerName">Pioneer</span>
+        </div>
+        <div class="hud-pill highlight">
+          <span id="hudCurrentLevel">DAY 1: LEVEL 1</span>
+        </div>
+        <div class="hud-pill">
+          <span>🎖️</span>
+          <span id="hudBadgesCount">0 Badges</span>
+        </div>
+        <button id="btnOpenMap" class="hud-btn" title="View 30-Day Journey Map">
+          🗺️ 30 Days Map
+        </button>
+        <button id="btnOpenCert" class="hud-btn" title="View & Download Certificate">
+          📜 Certificate
+        </button>
+        <button id="btnInstallPwa" class="hud-btn" style="display: none; border-color: var(--accent-gold); color: var(--accent-gold);" title="Install Offline Mobile App">
+          📲 Install App
+        </button>
+        <button id="btnToggleSound" class="hud-btn" title="Toggle Sound">
+          🔊 Sound On
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-layout">
+    
+    <!-- KAPIL MENTOR BAR -->
+    <section class="kapil-interactive-bar">
+      <div class="kapil-avatar-box" id="kapilAvatarContainer">
+        <!-- SVG Avatar injected by js/kapil.js -->
+      </div>
+      <div class="kapil-speech-wrapper">
+        <div class="kapil-label">KAPIL • LEAD MENTOR & CREATOR</div>
+        <div class="speech-bubble" id="kapilSpeechBubble">
+          Welcome to Logic Hunt! Solve the game puzzle first — we will unveil the secret algorithmic superpowers you used right after you win!
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVEL HEADER BANNER -->
+    <section class="level-banner">
+      <div class="level-title-large" id="levelBannerTitle">
+        <span class="lvl-icon">📦</span> DAY 1: The Express Conveyor
+      </div>
+      <div class="level-prompt-text" id="levelBannerPrompt">
+        Dispatch packages strictly in the order they arrived on the belt.
+      </div>
+    </section>
+
+    <!-- INTERACTIVE GAMEPLAY ARENA -->
+    <section class="game-arena-wrapper" id="gameArena">
+      <!-- Mini game rendered dynamically by js/games.js -->
+    </section>
+
+  </main>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- 1. ONBOARDING MODAL: ENTER NAME -->
+  <div class="modal-overlay" id="onboardingModal">
+    <div class="modal-content">
+      <div class="lesson-reveal-header">
+        <div class="reveal-badge-pill">SYM PRODUCTIONS</div>
+        <h2 class="reveal-title">WELCOME TO LOGIC HUNT</h2>
+        <p style="color: #94a3b8; margin-top: 8px;">
+          An animated 30-day algorithmic adventure with Kapil. Develop pure problem-solving logic through interactive games!
+        </p>
+      </div>
+
+      <div style="margin: 24px 0; display: flex; flex-direction: column; gap: 12px;">
+        <label style="font-weight: 700; color: #00f2fe; font-size: 0.95rem;">ENTER YOUR LEARNER NAME:</label>
+        <input type="text" id="learnerNameInput" class="cyber-num-input" placeholder="e.g. Alex Hunter" maxlength="28" autofocus style="text-align: left; font-size: 1.1rem; padding: 12px 16px;" />
+        <span style="font-size: 0.8rem; color: #64748b;">* This name will be permanently embossed onto your official completion certificates and downloadable badges.</span>
+      </div>
+
+      <div style="text-align: center;">
+        <button id="btnStartJourney" class="action-btn" style="width: 100%; padding: 14px; font-size: 1.05rem;">
+          🚀 BEGIN 30-DAY JOURNEY
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. LESSON REVEAL MODAL (POST-WINNING SECRET DSA DISCOVERY) -->
+  <div class="modal-overlay" id="lessonRevealModal">
+    <div class="modal-content">
+      <div class="lesson-reveal-header">
+        <div class="reveal-badge-pill">🎉 VICTORY ACHIEVED!</div>
+        <h2 class="reveal-title" id="revealConceptTitle">HIDDEN DSA CONCEPT UNVEILED</h2>
+      </div>
+
+      <div class="reveal-card">
+        <div style="color: #ffd700; font-weight: 800; font-size: 0.9rem; margin-bottom: 6px;">💡 THE "AHA!" MOMENT:</div>
+        <div class="reveal-aha" id="revealAhaText">
+          Explanation connecting game mechanic to algorithm...
+        </div>
+
+        <div style="color: #00f2fe; font-weight: 800; font-size: 0.9rem; margin-top: 14px;">💻 REAL PROGRAMMING CODE:</div>
+        <div class="code-container">
+          <pre><code id="revealCodeBlock"></code></pre>
+        </div>
+
+        <div class="tech-usage-box" id="revealTechUsage">
+          Where tech companies use this...
+        </div>
+      </div>
+
+      <div class="reveal-actions">
+        <button id="btnDownloadBadge" class="action-btn" style="background: linear-gradient(135deg, #ffd700, #f59e0b);">
+          🎖️ Download Level Badge (PNG)
+        </button>
+        <button id="btnNextLevel" class="action-btn">
+          Next Day's Challenge ➡️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 30-DAY LEVEL MAP MODAL -->
+  <div class="modal-overlay" id="levelMapModal">
+    <div class="modal-content wide">
+      <button class="modal-close-btn" id="btnCloseMap">&times;</button>
+      <div class="lesson-reveal-header">
+        <div class="reveal-badge-pill">30-DAY ALGORITHMIC CALENDAR</div>
+        <h2 class="reveal-title">JOURNEY PROGRESSION MAP</h2>
+        <div style="margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+          <label style="font-size: 0.85rem; color: #cbd5e1; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <input type="checkbox" id="devUnlockToggle" style="accent-color: #00f2fe;">
+            <span>🔓 Explorer Mode (Unlock all 30 days for testing/review)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="level-map-grid" id="levelMapGrid">
+        <!-- Injected dynamically by js/app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. OFFICIAL CERTIFICATE MODAL -->
+  <div class="modal-overlay" id="certModal">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="btnCloseCert">&times;</button>
+      <div class="lesson-reveal-header">
+        <div class="reveal-badge-pill">SYM PRODUCTIONS VERIFIED</div>
+        <h2 class="reveal-title">OFFICIAL CERTIFICATE</h2>
+        <p style="color: #94a3b8; margin-top: 6px;">
+          Awarded to <b id="certModalName" style="color: #fff;">Learner</b> for algorithmic excellence in Logic Hunt with Kapil.
+        </p>
+      </div>
+
+      <div class="reveal-card" style="text-align: center; padding: 20px;">
+        <div style="font-size: 3rem; margin-bottom: 10px;">📜</div>
+        <div style="font-size: 1.1rem; font-weight: 800; color: #ffd700;">Certificate of Algorithmic Mastery</div>
+        <div id="certModalStats" style="display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 0.9rem; color: #cbd5e1;">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="btnDownloadCert" class="action-btn" style="width: 100%; padding: 14px;">
+          📥 Download Official Certificate (PNG)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PWA INSTALLATION INSTRUCTION BANNER (FOR IOS/MOBILE) -->
+  <div id="iosInstallToast" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #120e30; border: 2px solid #00f2fe; padding: 12px 20px; border-radius: 12px; z-index: 9999; color: #fff; font-size: 0.88rem; box-shadow: 0 4px 20px rgba(0, 242, 254, 0.4); text-align: center; max-width: 90%;">
+    📱 To install on iPhone: Tap <b>Share</b> <span style="font-size: 1.1rem;">⎋</span> and select <b>"Add to Home Screen"</b> ➕
+    <button onclick="document.getElementById('iosInstallToast').style.display='none'" style="margin-left: 10px; background: transparent; border: none; color: #ff007f; font-weight: bold; cursor: pointer;">✕</button>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/sound.js"></script>
+  <script src="js/kapil.js"></script>
+  <script src="js/certificate.js"></script>
+  <script src="js/levels.js"></script>
+  <script src="js/games.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- PWA SERVICE WORKER REGISTRATION -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('[PWA] Service Worker registered with scope:', reg.scope))
+          .catch((err) => console.warn('[PWA] Service Worker registration failed:', err));
+      });
+    }
+
+    // PWA Install Prompt Listener
+    let deferredInstallPrompt = null;
+    const installBtn = document.getElementById('btnInstallPwa');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      if (installBtn) {
+        installBtn.style.display = 'inline-flex';
+      }
+    });
+
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+          const { outcome } = await deferredInstallPrompt.userChoice;
+          console.log('[PWA] Install prompt outcome:', outcome);
+          deferredInstallPrompt = null;
+          installBtn.style.display = 'none';
+        } else {
+          // Check if iOS
+          const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+          if (isIos) {
+            document.getElementById('iosInstallToast').style.display = 'block';
+          }
+        }
+      });
+    }
+
+    // Detect if already installed / standalone
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] App successfully installed!');
+      if (installBtn) installBtn.style.display = 'none';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "Logic Hunt with Kapil - SYM Productions",
+  "short_name": "LogicHunt",
+  "description": "Animated game developing programming logic building with hidden DSA concepts. Complete 30-day journey with offline certificates and badges.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#070614",
+  "theme_color": "#00f2fe",
+  "categories": ["education", "games"],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
